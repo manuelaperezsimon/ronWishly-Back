@@ -10,7 +10,8 @@
     "start:dev": "nodemon -q",
     "prepare": "husky install",
     "test": "jest src --passWithNoTests",
-    "test-watch": "jest src --watchAll"
+    "test-watch": "jest src --watchAll",
+    "test-coverage": "jest src/ --coverage --watchAll=false --passWithNoTests"
   },
   "keywords": [],
   "author": "",
@@ -30,5 +31,8 @@
     "ts-jest": "^28.0.7",
     "typescript": "^4.7.4",
     "husky": "^8.0.0"
+  },
+  "engines": {
+    "node": "^18.x"
   }
 }
