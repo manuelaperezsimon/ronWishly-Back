@@ -4,11 +4,13 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "ts": "tsc",
+    "build": "tsc",
     "ts:dev": "tsc -w",
     "start": "node .",
     "start:dev": "nodemon -q",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "jest src --passWithNoTests",
+    "test-watch": "jest src --watchAll"
   },
   "keywords": [],
   "author": "",
