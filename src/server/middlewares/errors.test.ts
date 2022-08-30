@@ -1,5 +1,5 @@
 import { Response, Request, NextFunction } from "express";
-import ICustomError from "../../interfaces/interfacesErrors";
+import CustomError from "../../utils/CustomError";
 import { generalError, notFoundError } from "./errors";
 
 describe("Given a notFoundError middleware", () => {
@@ -33,9 +33,12 @@ describe("Given an generalError function", () => {
   const next = jest.fn();
   describe("When it's called", () => {
     test("Then it should response with a status with the received error code and an error message", async () => {
-      const error = {
-        code: 356,
-        publicMessage: "Total error!",
+      const error: CustomError = {
+        publicMessage: "Everything went wrong",
+        code: "",
+        message: "",
+        name: "",
+        statusCode: 356,
       };
 
       const res = {
@@ -47,7 +50,7 @@ describe("Given an generalError function", () => {
       const responseJson = { error: error.publicMessage };
 
       await generalError(
-        error as ICustomError,
+        error as CustomError,
         req as unknown as Request,
         res as unknown as Response,
         next as NextFunction
@@ -57,11 +60,14 @@ describe("Given an generalError function", () => {
       expect(res.json).toBeCalledWith(responseJson);
     });
 
-    describe("When it's called without a code", () => {
-      test("Then it should response with a status code 500", async () => {
-        const error = {
-          code: null as number,
-          publicMessage: null as string,
+    describe("When it's called with a status code null", () => {
+      test("Then it should respond with a status code 500", async () => {
+        const error: CustomError = {
+          publicMessage: "",
+          code: "",
+          message: "",
+          name: "",
+          statusCode: null,
         };
 
         const requestTest = {};
@@ -71,19 +77,38 @@ describe("Given an generalError function", () => {
         };
 
         const nextTest = jest.fn();
-        const resolvedJson = { error: "Everything went wrong" };
 
         const expectedStatus = 500;
 
         await generalError(
-          error as ICustomError,
+          error as CustomError,
           requestTest as unknown as Request,
           responseTest as unknown as Response,
           nextTest as NextFunction
         );
 
         expect(responseTest.status).toBeCalledWith(expectedStatus);
-        expect(responseTest.json).toBeCalledWith(resolvedJson);
+      });
+      describe("When it is instantiated with a publicMessage null", () => {
+        test("Then it should give a response with the public message 'Everything went wrong'", async () => {
+          const error: CustomError = {
+            publicMessage: null,
+            code: "",
+            message: "",
+            name: "",
+            statusCode: 500,
+          };
+          const response = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn().mockResolvedValue(error.publicMessage),
+          } as Partial<Response>;
+
+          const expectedResponse = { error: "Everything went wrong" };
+
+          generalError(error, req as Request, response as Response, next);
+
+          expect(response.json).toBeCalledWith(expectedResponse);
+        });
       });
     });
   });

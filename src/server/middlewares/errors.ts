@@ -2,7 +2,8 @@ import "../../loadEnvironment";
 import Debug from "debug";
 import chalk from "chalk";
 import { NextFunction, Request, Response } from "express";
-import ICustomError from "../../interfaces/interfacesErrors";
+import { ValidationError } from "express-validation";
+import CustomError from "../../utils/CustomError";
 
 const debug = Debug("ronwishly:server:middlewares:errors");
 
@@ -11,16 +12,26 @@ export const notFoundError = (req: Request, res: Response) => {
 };
 
 export const generalError = (
-  error: ICustomError,
+  error: CustomError,
   req: Request,
   res: Response,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   next: NextFunction
 ) => {
-  const errorCode = error.code ?? 500;
-  const errorMessage = error.publicMessage ?? "Everything went wrong";
+  const errorCode = error.code;
+  const status = error.statusCode ?? 500;
+  let errorMessage = error.publicMessage ?? "Everything went wrong";
 
-  debug(chalk.red(error.message));
+  if (error instanceof ValidationError) {
+    debug(chalk.red("Request validation errors: "));
+    error.details.body.forEach((errorInfo) => {
+      debug(chalk.red(errorInfo.message));
+    });
 
-  res.status(errorCode).json({ error: errorMessage });
+    errorMessage = "Wrong data";
+  }
+
+  debug(chalk.red(error.message, errorCode));
+
+  res.status(status).json({ error: errorMessage });
 };
