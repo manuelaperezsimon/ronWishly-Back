@@ -29,18 +29,20 @@ describe("Given a notFoundError middleware", () => {
 });
 
 describe("Given an generalError function", () => {
+  const req = {};
+  const next = jest.fn();
   describe("When it's called", () => {
-    test("Then it should respond with a status with the received error code and an error message", async () => {
+    test("Then it should response with a status with the received error code and an error message", async () => {
       const error = {
         code: 356,
         publicMessage: "Total error!",
       };
-      const req = {};
+
       const res = {
         status: jest.fn().mockReturnThis(),
         json: jest.fn().mockResolvedValue(error.publicMessage),
       };
-      const next = jest.fn();
+
       const status = 356;
       const responseJson = { error: error.publicMessage };
 
@@ -53,6 +55,36 @@ describe("Given an generalError function", () => {
 
       expect(res.status).toBeCalledWith(status);
       expect(res.json).toBeCalledWith(responseJson);
+    });
+
+    describe("When it's called without a code", () => {
+      test("Then it should response with a status code 500", async () => {
+        const error = {
+          code: null as number,
+          publicMessage: null as string,
+        };
+
+        const requestTest = {};
+        const responseTest = {
+          status: jest.fn().mockReturnThis(),
+          json: jest.fn().mockResolvedValue(error.publicMessage),
+        };
+
+        const nextTest = jest.fn();
+        const resolvedJson = { error: "Everything went wrong" };
+
+        const expectedStatus = 500;
+
+        await generalError(
+          error as ICustomError,
+          requestTest as unknown as Request,
+          responseTest as unknown as Response,
+          nextTest as NextFunction
+        );
+
+        expect(responseTest.status).toBeCalledWith(expectedStatus);
+        expect(responseTest.json).toBeCalledWith(resolvedJson);
+      });
     });
   });
 });
