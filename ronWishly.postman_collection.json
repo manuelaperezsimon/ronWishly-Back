@@ -1,0 +1,72 @@
+{
+  "info": {
+    "_postman_id": "beacc908-4ef9-4f7c-9788-f50806f490e3",
+    "name": "ronWishly",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "22263874"
+  },
+  "item": [
+    {
+      "name": "Endpoint not found",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{origin}}",
+          "host": ["{{origin}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"userName\": \"Ramón\",\n    \"password\": \"0000\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{apiURLlocal}}/users/register",
+          "host": ["{{apiURLlocal}}"],
+          "path": ["users", "register"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "apiURLlocal",
+      "value": "http://localhost:4000\n",
+      "type": "string"
+    },
+    {
+      "key": "origin",
+      "value": "https://mperez-final-project-202207.herokuapp.com/",
+      "type": "string"
+    }
+  ]
+}
