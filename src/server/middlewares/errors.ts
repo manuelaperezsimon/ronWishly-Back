@@ -2,6 +2,7 @@ import "../../loadEnvironment";
 import Debug from "debug";
 import chalk from "chalk";
 import { NextFunction, Request, Response } from "express";
+import { ValidationError } from "express-validation";
 import ICustomError from "../../interfaces/interfacesErrors";
 
 const debug = Debug("ronwishly:server:middlewares:errors");
@@ -18,7 +19,16 @@ export const generalError = (
   next: NextFunction
 ) => {
   const errorCode = error.code ?? 500;
-  const errorMessage = error.publicMessage ?? "Everything went wrong";
+  let errorMessage = error.publicMessage ?? "Everything went wrong";
+
+  if (error instanceof ValidationError) {
+    debug(chalk.red("Request validation errors: "));
+    error.details.body.forEach((errorInfo) => {
+      debug(chalk.red(errorInfo.message));
+    });
+
+    errorMessage = "Wrong data";
+  }
 
   debug(chalk.red(error.message));
 
