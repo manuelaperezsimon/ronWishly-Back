@@ -7,9 +7,14 @@ import CustomError from "../../utils/CustomError";
 describe("Given a registerUser controller", () => {
   const messageTest = { message: "User created" };
 
+  const userTest = {
+    userName: "Gerard",
+    password: "4567",
+  };
+
   const requestTest = {
     body: {
-      messagge: messageTest,
+      user: userTest,
     },
   } as Partial<Request>;
 
