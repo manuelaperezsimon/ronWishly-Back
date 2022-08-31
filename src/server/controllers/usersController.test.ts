@@ -5,14 +5,11 @@ import registerUser from "./usersController";
 import CustomError from "../../utils/CustomError";
 
 describe("Given a registerUser controller", () => {
-  const userTest = {
-    userName: "Gerard",
-    password: "4567",
-  };
+  const messageTest = { message: "User created" };
 
   const requestTest = {
     body: {
-      user: userTest,
+      messagge: messageTest,
     },
   } as Partial<Request>;
 
@@ -42,11 +39,11 @@ describe("Given a registerUser controller", () => {
     });
 
     test("Then it should invoke the response method json with a new User", async () => {
-      User.create = jest.fn().mockResolvedValue(userTest);
+      User.create = jest.fn().mockResolvedValue(messageTest);
 
       await registerUser(requestTest as Request, res as Response, nextTest);
 
-      expect(res.json).toHaveBeenCalledWith({ user: userTest });
+      expect(res.json).toHaveBeenCalledWith(messageTest);
     });
 
     describe("When it doesn't receives an user with required properties", () => {
