@@ -3,4 +3,9 @@ interface UserRegister {
   password: string;
 }
 
+export interface CustomJwtPayload {
+  id: string;
+  userName: string;
+}
+
 export default UserRegister;
