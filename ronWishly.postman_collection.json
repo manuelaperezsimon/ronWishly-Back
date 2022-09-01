@@ -25,7 +25,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"userName\": \"Ramón\",\n    \"password\": \"0000\"\n}",
+          "raw": "{\n    \"userName\": \"Aroncito\",\n    \"password\": \"00000\",\n    \"repeatPassword\": \"00000\"\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -36,6 +36,28 @@
           "raw": "{{apiURLlocal}}/users/register",
           "host": ["{{apiURLlocal}}"],
           "path": ["users", "register"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "New Request",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"userName\": \"Aroncito\",\n    \"password\": \"00000\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{apiURLlocal}}/users/login",
+          "host": ["{{apiURLlocal}}"],
+          "path": ["users", "login"]
         }
       },
       "response": []
@@ -65,7 +87,7 @@
     },
     {
       "key": "origin",
-      "value": "https://mperez-final-project-202207.herokuapp.com/",
+      "value": "https://mperez-final-project-202207.herokuapp.com/\n",
       "type": "string"
     }
   ]
