@@ -1,4 +1,4 @@
-interface UserRegister {
+export interface UserRegister {
   userName: string;
   password: string;
 }
@@ -8,4 +8,7 @@ export interface CustomJwtPayload {
   userName: string;
 }
 
-export default UserRegister;
+export interface LoginData {
+  userName: string;
+  password: string;
+}
