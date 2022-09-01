@@ -5,9 +5,7 @@ import {
   LoginData,
   UserRegister,
 } from "../../interfaces/usersInterfaces";
-
 import { createToken, hashCompare, hashCreator } from "../../utils/auth";
-
 import CustomError from "../../utils/CustomError";
 
 export const registerUser = async (
@@ -37,6 +35,7 @@ export const loginUser = async (
   next: NextFunction
 ) => {
   const user = req.body as LoginData;
+
   const userError = new CustomError(
     403,
     "User not found",
@@ -47,6 +46,7 @@ export const loginUser = async (
 
   try {
     findUser = await User.find({ userName: user.userName });
+
     if (findUser.length === 0) {
       next(userError);
       return;
@@ -54,7 +54,7 @@ export const loginUser = async (
   } catch (error) {
     const finalError = new CustomError(
       403,
-      `name: ${(error as Error).message}`,
+      "User not found",
       "User or password not valid"
     );
     next(finalError);
@@ -66,6 +66,7 @@ export const loginUser = async (
       user.password,
       findUser[0].password
     );
+
     if (!isPasswordValid) {
       userError.message = "Password not valid";
       next(userError);
@@ -74,7 +75,7 @@ export const loginUser = async (
   } catch (error) {
     const finalError = new CustomError(
       403,
-      `${(error as Error).name}, message:${(error as Error).message}`,
+      "Invalid password",
       "User or password invalid"
     );
     next(finalError);
@@ -87,9 +88,7 @@ export const loginUser = async (
   };
 
   const responseData = {
-    user: {
-      token: createToken(payload),
-    },
+    token: createToken(payload),
   };
 
   res.status(200).json(responseData);
