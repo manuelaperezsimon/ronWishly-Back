@@ -3,6 +3,7 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import app from "..";
 import connectDB from "../../database";
+import User from "../../database/models/User";
 
 let mongoServer: MongoMemoryServer;
 
@@ -16,6 +17,10 @@ beforeAll(async () => {
 afterAll(async () => {
   await mongoose.connection.close();
   await mongoServer.stop();
+});
+
+afterEach(async () => {
+  await User.deleteMany();
 });
 
 describe("Given an endpoint POST /users/register", () => {
@@ -40,6 +45,52 @@ describe("Given an endpoint POST /users/register", () => {
         .expect(400);
 
       expect(body).toHaveProperty("error", message);
+    });
+  });
+});
+
+describe("Given an endpoint POST /users/login", () => {
+  describe("When it receives a request with username 'andream' and password 'andrea123'", () => {
+    test("Then it should response with status 200 and the token", async () => {
+      const mockUser = {
+        userName: "ignacio",
+        password: "ignacio",
+      };
+
+      await request(app).post("/users/register").send(mockUser);
+
+      const userMockLogin = {
+        userName: "ignacio",
+        password: "ignacio",
+      };
+      const status = 200;
+
+      await request(app)
+        .post("/users/login")
+        .send(userMockLogin)
+        .expect(status);
+    });
+  });
+
+  describe("When it receives a request without password", () => {
+    test("Then it should respond with a status of 400 if the password is not valid", async () => {
+      const mockUser = {
+        userName: "ignacio",
+        password: "ignacio",
+      };
+
+      await request(app).post("/users/register").send(mockUser);
+
+      const userMockLogin = {
+        userName: "ignacio",
+        password: "ignaci",
+      };
+      const status = 403;
+
+      await request(app)
+        .post("/users/login")
+        .send(userMockLogin)
+        .expect(status);
     });
   });
 });
