@@ -23,6 +23,6 @@ const wishSchema = new Schema({
   },
 });
 
-const Robot = model("Wish", wishSchema, "wishes");
+const Wish = model("Wish", wishSchema, "wishes");
 
-export default Robot;
+export default Wish;
