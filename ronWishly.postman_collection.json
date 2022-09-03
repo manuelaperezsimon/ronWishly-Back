@@ -41,7 +41,7 @@
       "response": []
     },
     {
-      "name": "New Request",
+      "name": "Login",
       "request": {
         "method": "POST",
         "header": [],
@@ -58,6 +58,19 @@
           "raw": "{{apiURLlocal}}/users/login",
           "host": ["{{apiURLlocal}}"],
           "path": ["users", "login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetAllWishes",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{apiURLlocal}}/wishes",
+          "host": ["{{apiURLlocal}}"],
+          "path": ["wishes"]
         }
       },
       "response": []
