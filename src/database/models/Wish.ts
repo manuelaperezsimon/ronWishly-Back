@@ -13,6 +13,10 @@ const wishSchema = new Schema({
     type: Date,
     default: new Date(),
   },
+  description: {
+    type: String,
+    required: true,
+  },
   owner: {
     type: Schema.Types.ObjectId,
     ref: "User",
