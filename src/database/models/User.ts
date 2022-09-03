@@ -10,6 +10,8 @@ const userSchema = new Schema({
     type: String,
     require: true,
   },
+
+  wishes: [{ type: Schema.Types.ObjectId, ref: "Wish" }],
 });
 
 const User = model("User", userSchema, "users");
