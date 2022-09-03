@@ -15,3 +15,5 @@ export const createToken = (payload: CustomJwtPayload) =>
 
 export const hashCompare = (text: string, hash: string) =>
   bcrypt.compare(text, hash);
+
+export const verifyToken = (token: string) => jwt.verify(token, secretWord);
