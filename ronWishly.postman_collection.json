@@ -74,6 +74,39 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "Delete",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWQiOjEsImlhdCI6MTUxNjIzOTAyMn0._BmQIY6uSwn4YaiRcyKYUm4nxWOCY1BfE9l861HETiU",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{apiURLlocal}}/wishes/:id",
+          "host": ["{{apiURLlocal}}"],
+          "path": ["wishes", ":id"],
+          "variable": [
+            {
+              "key": "id",
+              "value": "6313a8c4389d2b0e848def96"
+            }
+          ]
+        }
+      },
+      "response": []
     }
   ],
   "event": [
