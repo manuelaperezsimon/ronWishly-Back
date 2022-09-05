@@ -21,7 +21,7 @@ export const registerUser = async (
     res.status(201).json({ message: "User created" });
   } catch (error) {
     const customError = new CustomError(
-      400,
+      409,
       error.message,
       "Error creating new user"
     );

@@ -63,7 +63,7 @@ describe("Given a registerUser controller", () => {
 
     describe("When it doesn't receives an user with required properties", () => {
       test("Then it should nexted an error", async () => {
-        const errorTest = new CustomError(400, "Error", "Public error");
+        const errorTest = new CustomError(409, "Error", "Public error");
         User.create = jest.fn().mockRejectedValue(errorTest);
 
         await registerUser(
