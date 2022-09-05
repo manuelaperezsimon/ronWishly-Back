@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import Wish from "../../../database/models/Wish";
 import CustomError from "../../../utils/CustomError";
 
-const getAllWishes = async (
+export const getAllWishes = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -27,4 +27,24 @@ const getAllWishes = async (
   }
 };
 
-export default getAllWishes;
+export const deleteWish = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { id } = req.params;
+
+  try {
+    const deleteWishItem = await Wish.findByIdAndDelete(id);
+    if (deleteWishItem) {
+      res.status(200).json({ message: "Wish deleted correctly" });
+    }
+  } catch (error) {
+    const newError = new CustomError(
+      404,
+      "Error while deleting wish",
+      "Error while deleting wish"
+    );
+    next(newError);
+  }
+};

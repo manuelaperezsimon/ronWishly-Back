@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import Wish from "../../../database/models/Wish";
 import { IWish } from "../../../interfaces/wishesInterface";
 import CustomError from "../../../utils/CustomError";
-import getAllWishes from "./wishesController";
+import { deleteWish, getAllWishes } from "./wishesController";
 
 describe("Given a getAllwishes function", () => {
   const mockWish: IWish = {
@@ -70,6 +70,63 @@ describe("Given a getAllwishes function", () => {
 
       expect(res.status).toHaveBeenCalledWith(status);
       expect(res.json).toHaveBeenCalledWith(expectedError);
+    });
+  });
+});
+
+describe("Given a deleteWish function", () => {
+  describe("When it's called with a request, response and a next function", () => {
+    test("Then it should respond with with a status 200 and a confirmation of delete with a message 'Wish deleted correctly'", async () => {
+      const requestTest = {
+        params: { id: "62e0ajh9b455361" },
+      } as Partial<Request>;
+
+      const expectedStatus = 200;
+      const expectedMessage = { message: "Wish deleted correctly" };
+      const next = jest.fn() as NextFunction;
+
+      const responseTest = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn().mockReturnThis(),
+      } as Partial<Response>;
+
+      Wish.findByIdAndDelete = jest.fn().mockResolvedValue(expectedMessage);
+
+      await deleteWish(requestTest as Request, responseTest as Response, next);
+
+      expect(responseTest.status).toHaveBeenCalledWith(expectedStatus);
+      expect(responseTest.json).toHaveBeenCalledWith(expectedMessage);
+    });
+
+    describe("When it receives a request to delete an item but can't find it", () => {
+      test("Then it should throw a CustomError with 404 as code", async () => {
+        const requestTest = {
+          params: { id: "" },
+        } as Partial<Request>;
+
+        const expectedError = new CustomError(
+          404,
+          "Error while deleting wish",
+          "Error while deleting wish"
+        );
+
+        Wish.findByIdAndDelete = jest.fn().mockRejectedValue(expectedError);
+
+        const next = jest.fn() as NextFunction;
+
+        const responseTest = {
+          status: jest.fn().mockReturnThis(),
+          json: jest.fn(),
+        } as Partial<Response>;
+
+        await deleteWish(
+          requestTest as Request,
+          responseTest as Response,
+          next
+        );
+
+        expect(next).toHaveBeenCalledWith(expectedError);
+      });
     });
   });
 });
