@@ -1,165 +1,140 @@
 {
-	"info": {
-		"_postman_id": "beacc908-4ef9-4f7c-9788-f50806f490e3",
-		"name": "ronWishly",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "22263874"
-	},
-	"item": [
-		{
-			"name": "Endpoint not found",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{origin}}",
-					"host": [
-						"{{origin}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Register",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"userName\": \"Aroncito\",\n    \"password\": \"00000\",\n    \"repeatPassword\": \"00000\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{apiURLlocal}}/users/register",
-					"host": [
-						"{{apiURLlocal}}"
-					],
-					"path": [
-						"users",
-						"register"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Login",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"userName\": \"Aroncito\",\n    \"password\": \"00000\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{apiURLlocal}}/users/login",
-					"host": [
-						"{{apiURLlocal}}"
-					],
-					"path": [
-						"users",
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetAllWishes",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{apiURLlocal}}/wishes",
-					"host": [
-						"{{apiURLlocal}}"
-					],
-					"path": [
-						"wishes"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWQiOjEsImlhdCI6MTUxNjIzOTAyMn0._BmQIY6uSwn4YaiRcyKYUm4nxWOCY1BfE9l861HETiU",
-							"type": "string"
-						}
-					]
-				},
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{apiURLlocal}}/wishes/:id",
-					"host": [
-						"{{apiURLlocal}}"
-					],
-					"path": [
-						"wishes",
-						":id"
-					],
-					"variable": [
-						{
-							"key": "id",
-							"value": "6313a8c4389d2b0e848def96"
-						}
-					]
-				}
-			},
-			"response": []
-		}
-	],
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		}
-	],
-	"variable": [
-		{
-			"key": "apiURLlocal",
-			"value": "http://localhost:4000\n",
-			"type": "string"
-		},
-		{
-			"key": "origin",
-			"value": "https://mperez-final-project-202207.herokuapp.com/\n",
-			"type": "string"
-		}
-	]
+  "info": {
+    "_postman_id": "beacc908-4ef9-4f7c-9788-f50806f490e3",
+    "name": "ronWishly",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "22263874"
+  },
+  "item": [
+    {
+      "name": "Endpoint not found",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{origin}}",
+          "host": ["{{origin}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"userName\": \"Aroncito\",\n    \"password\": \"00000\",\n    \"repeatPassword\": \"00000\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{apiURLlocal}}/users/register",
+          "host": ["{{apiURLlocal}}"],
+          "path": ["users", "register"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"userName\": \"Aroncito\",\n    \"password\": \"00000\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{apiURLlocal}}/users/login",
+          "host": ["{{apiURLlocal}}"],
+          "path": ["users", "login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetAllWishes",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{apiURLlocal}}/wishes",
+          "host": ["{{apiURLlocal}}"],
+          "path": ["wishes"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWQiOjEsImlhdCI6MTUxNjIzOTAyMn0._BmQIY6uSwn4YaiRcyKYUm4nxWOCY1BfE9l861HETiU",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{apiURLlocal}}/wishes/:id",
+          "host": ["{{apiURLlocal}}"],
+          "path": ["wishes", ":id"],
+          "variable": [
+            {
+              "key": "id",
+              "value": "6313a8c4389d2b0e848def96"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "apiURLlocal",
+      "value": "http://localhost:4000\n",
+      "type": "string"
+    },
+    {
+      "key": "origin",
+      "value": "https://mperez-final-project-202207.herokuapp.com/\n",
+      "type": "string"
+    }
+  ]
 }
