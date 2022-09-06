@@ -4,27 +4,45 @@ import { IWish } from "../../../interfaces/wishesInterface";
 import CustomError from "../../../utils/CustomError";
 import { deleteWish, getAllWishes } from "./wishesController";
 
-describe("Given a getAllwishes function", () => {
-  const mockWish: IWish = {
-    title: "Viajar",
-    picture: "",
-    limitDate: new Date(),
-    description: "Por europa",
-  };
+jest.mock("jsonwebtoken", () => ({
+  ...jest.requireActual("jsonwebtoken"),
+  decode: jest.fn().mockReturnValue({
+    id: "1234grew43d",
+  }),
+}));
 
-  const req = {} as Partial<Request>;
+jest.mock("../../../database/models/Wish", () => ({
+  find: jest.fn().mockReturnValue([
+    {
+      title: "Viajar",
+      picture: "",
+      limitDate: new Date(),
+      description: "Por europa",
+    },
+  ]),
+}));
+
+describe("Given a getAllwishes function", () => {
+  const req = {
+    get: (name: string) => `Bearer ${name}`,
+  } as Partial<Request>;
 
   const res = {
     status: jest.fn().mockReturnThis(),
     json: jest.fn(),
   } as Partial<Response>;
 
+  const mockWish: IWish = {
+    title: "Viajar",
+    picture: "",
+    limitDate: expect.any(Date),
+    description: "Por europa",
+  };
+
   const next = jest.fn() as NextFunction;
 
   describe("When it's called with a request, response and a next function", () => {
     test("Then it should response with a status 200", async () => {
-      Wish.find = jest.fn().mockReturnValue([mockWish]);
-
       const expectedStatus = 200;
 
       await getAllWishes(req as Request, res as Response, next);

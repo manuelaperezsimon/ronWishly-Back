@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { decode, JwtPayload } from "jsonwebtoken";
 import Wish from "../../../database/models/Wish";
 import CustomError from "../../../utils/CustomError";
 
@@ -8,7 +9,9 @@ export const getAllWishes = async (
   next: NextFunction
 ) => {
   try {
-    const wishes = await Wish.find();
+    const token = req.get("Authorization").slice(7);
+    const userId = (decode(token) as JwtPayload).id;
+    const wishes = await Wish.find({ owner: userId });
 
     if (wishes.length === 0) {
       res.status(404).json({ wishes: "No wishes found" });
