@@ -8,4 +8,5 @@ module.exports = {
     "!src/server/startServer.ts",
     "!src/database/index.ts",
   ],
+  modulePathIgnorePatterns: [".js"],
 };
