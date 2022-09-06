@@ -7,7 +7,7 @@ import { authentication } from "../../middlewares/authentication";
 
 const wishesRouter = express.Router();
 
-wishesRouter.get("/", getAllWishes);
+wishesRouter.get("/", authentication, getAllWishes);
 wishesRouter.delete("/:id", authentication, deleteWish);
 
 export default wishesRouter;
