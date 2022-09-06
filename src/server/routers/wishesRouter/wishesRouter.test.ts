@@ -1,11 +1,22 @@
 import request from "supertest";
+import { decode } from "jsonwebtoken";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import app from "../..";
 import connectDB from "../../../database";
 import Wish from "../../../database/models/Wish";
+import User from "../../../database/models/User";
 
 let mongoServer: MongoMemoryServer;
+
+jest.mock("jsonwebtoken", () => ({
+  ...jest.requireActual("jsonwebtoken"),
+  decode: jest.fn(),
+}));
+
+jest.mock("../../middlewares/authentication", () => ({
+  authentication: jest.fn().mockImplementation((req, res, next) => next()),
+}));
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
@@ -23,19 +34,33 @@ afterAll(async () => {
   await mongoServer.stop();
 });
 
+const mockDecode = decode as jest.Mock;
+
 describe("Given a GET endpoint", () => {
   describe("When it receives a request with method get", () => {
     test("Then it should response with status 200", async () => {
       const expectedStatus = 200;
 
+      const user = await User.create({
+        userName: "holis",
+        password: "23243545",
+      });
       await Wish.create({
         title: "Viajar a Japón",
         picture: "japon.png",
         limitDate: new Date(),
         description: "Nos vamos a ver los árboles",
+        owner: user,
       });
 
-      await request(app).get("/wishes").expect(expectedStatus);
+      mockDecode.mockReturnValue({
+        id: user.id,
+      });
+
+      await request(app)
+        .get("/wishes")
+        .set("Authorization", "Bearer 434v45grgefr94i")
+        .expect(expectedStatus);
     });
   });
 
