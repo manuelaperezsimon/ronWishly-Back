@@ -5,7 +5,7 @@ const wishSchema = new Schema({
     type: String,
     required: true,
   },
-  image: {
+  picture: {
     type: String,
     required: true,
   },

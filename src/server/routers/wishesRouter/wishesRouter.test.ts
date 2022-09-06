@@ -30,7 +30,7 @@ describe("Given a GET endpoint", () => {
 
       await Wish.create({
         title: "Viajar a Japón",
-        image: "japon.png",
+        picture: "japon.png",
         limitDate: new Date(),
         description: "Nos vamos a ver los árboles",
       });
