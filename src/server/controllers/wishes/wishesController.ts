@@ -14,14 +14,14 @@ export const getAllWishes = async (
     const wishes = await Wish.find({ owner: userId });
 
     if (wishes.length === 0) {
-      res.status(404).json({ wishes: "No wishes found" });
+      res.status(200).json({ wishes: "No wishes found" });
       return;
     }
 
     res.status(200).json({ wishes });
   } catch (error) {
     const newError = new CustomError(
-      404,
+      200,
       "Error while getting wishes",
       "No wishes found"
     );
@@ -39,8 +39,11 @@ export const deleteWish = async (
 
   try {
     const deleteWishItem = await Wish.findByIdAndDelete(id);
+
     if (deleteWishItem) {
       res.status(200).json({ message: "Wish deleted correctly" });
+    } else {
+      res.status(404).send();
     }
   } catch (error) {
     const newError = new CustomError(
@@ -48,6 +51,33 @@ export const deleteWish = async (
       "Error while deleting wish",
       "Error while deleting wish"
     );
+    next(newError);
+  }
+};
+
+export const getById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { wishId } = req.params;
+
+  try {
+    const dbWish = await Wish.findById(wishId);
+
+    if (!dbWish) {
+      res.status(404).json({ wishes: "No wishes found" });
+      return;
+    }
+
+    res.status(200).json({ wish: dbWish });
+  } catch (error) {
+    const newError = new CustomError(
+      404,
+      "No projects found",
+      "Error while finding the project requested"
+    );
+
     next(newError);
   }
 };

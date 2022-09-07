@@ -66,7 +66,7 @@ describe("Given a getAllwishes function", () => {
       Wish.find = jest.fn().mockRejectedValue(new Error());
 
       const expectedError = new CustomError(
-        404,
+        200,
         "Error while getting wishes",
         "No wishes found"
       );
@@ -82,7 +82,7 @@ describe("Given a getAllwishes function", () => {
       Wish.find = jest.fn().mockReturnValue([]);
 
       const expectedError = { wishes: "No wishes found" };
-      const status = 404;
+      const status = 200;
 
       await getAllWishes(req as Request, res as Response, next);
 
@@ -144,6 +144,35 @@ describe("Given a deleteWish function", () => {
         );
 
         expect(next).toHaveBeenCalledWith(expectedError);
+      });
+    });
+
+    describe("When it receives a request to delete an item but the value is null", () => {
+      test.only("Then it should send a response with the method status 404", async () => {
+        const requestTest = {
+          params: { id: "132425" },
+        } as Partial<Request>;
+
+        const expectedResult: void = null;
+
+        Wish.findByIdAndDelete = jest.fn().mockResolvedValue(expectedResult);
+
+        const expectedStatus = 404;
+
+        const responseTest = {
+          status: jest.fn().mockReturnThis(),
+          json: jest.fn().mockReturnThis(),
+        } as Partial<Response>;
+
+        const next = jest.fn() as NextFunction;
+
+        await deleteWish(
+          requestTest as Request,
+          responseTest as Response,
+          next
+        );
+
+        expect(responseTest.status).toHaveBeenCalledWith(expectedStatus);
       });
     });
   });
