@@ -74,8 +74,8 @@ export const getById = async (
   } catch (error) {
     const newError = new CustomError(
       404,
-      "No projects found",
-      "Error while finding the project requested"
+      "No wishes found",
+      "Error while finding the wish requested"
     );
 
     next(newError);
