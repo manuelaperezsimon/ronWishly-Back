@@ -76,20 +76,6 @@ describe("Given a getAllwishes function", () => {
       expect(next).toHaveBeenCalledWith(expectedError);
     });
   });
-
-  describe("When called but there are no wishes avaliables", () => {
-    test("Then it should respond with 'Error while getting wishes' message", async () => {
-      Wish.find = jest.fn().mockReturnValue([]);
-
-      const expectedError = { wishes: "No wishes found" };
-      const status = 200;
-
-      await getAllWishes(req as Request, res as Response, next);
-
-      expect(res.status).toHaveBeenCalledWith(status);
-      expect(res.json).toHaveBeenCalledWith(expectedError);
-    });
-  });
 });
 
 describe("Given a deleteWish function", () => {
