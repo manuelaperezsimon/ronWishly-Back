@@ -107,6 +107,29 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "GetByIdWish",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMTFlY2EwZGY0NGUyMGIzNTE0ZGQzYSIsInVzZXJOYW1lIjoiaWduYWNpbyIsImlhdCI6MTY2MjYyNTczMH0.vqSGvSa4VB9mUoZBs1UTKuCE7S16N2odQG7zheQRJPQ",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{apiURLlocal}}/wishes/6319a783ac13a37c3f8ecd15",
+          "host": ["{{apiURLlocal}}"],
+          "path": ["wishes", "6319a783ac13a37c3f8ecd15"]
+        }
+      },
+      "response": []
     }
   ],
   "event": [
