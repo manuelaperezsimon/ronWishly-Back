@@ -60,10 +60,10 @@ export const getById = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { wishId } = req.params;
+  const { id } = req.params;
 
   try {
-    const dbWish = await Wish.findById(wishId);
+    const dbWish = await Wish.findById(id);
 
     if (!dbWish) {
       res.status(404).json({ wishes: "No wishes found" });
