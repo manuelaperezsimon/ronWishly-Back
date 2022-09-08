@@ -13,15 +13,10 @@ export const getAllWishes = async (
     const userId = (decode(token) as JwtPayload).id;
     const wishes = await Wish.find({ owner: userId });
 
-    if (wishes.length === 0) {
-      res.status(200).json({ wishes: "No wishes found" });
-      return;
-    }
-
     res.status(200).json({ wishes });
   } catch (error) {
     const newError = new CustomError(
-      200,
+      400,
       "Error while getting wishes",
       "No wishes found"
     );

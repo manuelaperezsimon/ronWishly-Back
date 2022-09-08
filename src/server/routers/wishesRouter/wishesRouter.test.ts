@@ -56,7 +56,7 @@ describe("Given a GET endpoint", () => {
       });
 
       mockDecode.mockReturnValue({
-        id: "1234grew43d",
+        id: user.id,
       });
 
       await request(app)
@@ -68,7 +68,7 @@ describe("Given a GET endpoint", () => {
 
   describe("When it receives a request with method get but there isn't any object on the database", () => {
     test("Then it should throw a 'No wishes found' error", async () => {
-      const expectedStatus = 200;
+      const expectedStatus = 400;
 
       await request(app).get("/wishes").expect(expectedStatus);
     });
@@ -99,6 +99,39 @@ describe("Given a DELETE endpoint", () => {
         .delete(`/wishes/${idWish}`)
         .set("Authorization", "Bearer 434v45grgefr94i")
         .expect(expectedStatus);
+    });
+  });
+});
+
+describe("Given Given a 'wishes/:id' route", () => {
+  describe("When requested with GET method", () => {
+    test("Then it should respond with a status 200", async () => {
+      const user = await User.create({
+        userName: "pedrito",
+        password: "23243545",
+      });
+
+      const newWish = await Wish.create({
+        id: "12345",
+        title: "Viajar a Japón",
+        picture: "japon.png",
+        limitDate: new Date(),
+        description: "Nos vamos a ver los árboles",
+        owner: user.id,
+      });
+
+      const expectedStatus = 200;
+
+      const res = await request(app).get(`/wishes/${newWish.id}`);
+
+      expect(res.statusCode).toBe(expectedStatus);
+    });
+
+    test("Then it should respond with a status 400 if there are no wishes", async () => {
+      const expectedStatus = 404;
+      const res = await request(app).get("/wishes/fakeid");
+
+      expect(res.statusCode).toBe(expectedStatus);
     });
   });
 });
