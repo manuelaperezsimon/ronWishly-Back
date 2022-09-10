@@ -2,7 +2,12 @@ import { NextFunction, Request, Response } from "express";
 import Wish from "../../../database/models/Wish";
 import { IWish } from "../../../interfaces/wishesInterface";
 import CustomError from "../../../utils/CustomError";
-import { deleteWish, getAllWishes, getById } from "./wishesController";
+import {
+  createWish,
+  deleteWish,
+  getAllWishes,
+  getById,
+} from "./wishesController";
 
 jest.mock("jsonwebtoken", () => ({
   ...jest.requireActual("jsonwebtoken"),
@@ -12,6 +17,7 @@ jest.mock("jsonwebtoken", () => ({
 }));
 
 jest.mock("../../../database/models/Wish", () => ({
+  ...jest.requireActual("../../../database/models/Wish"),
   find: jest.fn().mockReturnValue([
     {
       title: "Viajar",
@@ -20,6 +26,7 @@ jest.mock("../../../database/models/Wish", () => ({
       description: "Por europa",
     },
   ]),
+  create: jest.fn(),
 }));
 
 describe("Given a getAllwishes function", () => {
@@ -238,6 +245,66 @@ describe("Given a getById function", () => {
       const next = jest.fn() as NextFunction;
 
       await getById(requestTest as Request, responseTest as Response, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+});
+
+describe("Given a createWish function", () => {
+  describe("When it's called with a request, response and next function", () => {
+    test("Then it show response with a status 201 and the created wish", async () => {
+      const mockCreate = Wish.create as jest.Mock;
+
+      mockCreate.mockResolvedValue({
+        id: "12345",
+        picture: "japan.png",
+        limitDate: new Date(),
+        description: "hola hola",
+        title: "Viajando",
+      });
+
+      const req = {
+        get: (name: string) => `Bearer ${name}`,
+      } as Partial<Request>;
+
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      } as Partial<Response>;
+
+      const next = jest.fn() as NextFunction;
+
+      const expectedStatus = 201;
+
+      await createWish(req as Request, res as Response, next);
+
+      expect(res.status).toHaveBeenCalledWith(expectedStatus);
+    });
+  });
+
+  describe("When it's called with a request, response and next function with a invalid properties", () => {
+    test("Then it call next with a custom error", async () => {
+      Wish.create = jest.fn().mockRejectedValue(new Error());
+
+      const req = {
+        get: (name: string) => `Bearer ${name}`,
+      } as Partial<Request>;
+
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      } as Partial<Response>;
+
+      const next = jest.fn() as NextFunction;
+
+      const expectedError = new CustomError(
+        400,
+        "Error creating wish",
+        "Could not create the wish"
+      );
+
+      await createWish(req as Request, res as Response, next);
 
       expect(next).toHaveBeenCalledWith(expectedError);
     });

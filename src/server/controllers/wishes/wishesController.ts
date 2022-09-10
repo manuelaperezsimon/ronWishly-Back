@@ -76,3 +76,27 @@ export const getById = async (
     next(newError);
   }
 };
+
+export const createWish = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const rawWish = req.body;
+
+  try {
+    const token = req.get("Authorization").slice(7);
+    const userId = (decode(token) as JwtPayload).id;
+    const newWish = await Wish.create({ ...rawWish, owner: userId });
+
+    res.status(201).json({ newWish });
+  } catch (error) {
+    const newError = new CustomError(
+      400,
+      "Error creating wish",
+      "Could not create the wish"
+    );
+
+    next(newError);
+  }
+};
