@@ -109,7 +109,7 @@
       "response": []
     },
     {
-      "name": "GetByIdWish",
+      "name": "GetById",
       "request": {
         "auth": {
           "type": "bearer",
@@ -124,9 +124,40 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{apiURLlocal}}/wishes/6319a783ac13a37c3f8ecd15",
-          "host": ["{{apiURLlocal}}"],
+          "raw": "/wishes/6319a783ac13a37c3f8ecd15",
           "path": ["wishes", "6319a783ac13a37c3f8ecd15"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CreateWish",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMTFlY2EwZGY0NGUyMGIzNTE0ZGQzYSIsInVzZXJOYW1lIjoiaWduYWNpbyIsImlhdCI6MTY2MjYyNTczMH0.vqSGvSa4VB9mUoZBs1UTKuCE7S16N2odQG7zheQRJPQ",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n        \"title\": \"Pauet\",\n        \"picture\": \"https://images.ecestaticos.com/OHD0uJm-ppTqBwIDZQeS2Ld0a54=/77x5:1185x836/557x418/filters:fill(white):format(jpg)/f.elconfidencial.com%2Foriginal%2F0c0%2F05a%2Fcd4%2F0c005acd4669a908e6ba18a46ed83dec.jpg\",\n        \"limitDate\": \"2024-09-19T16:36:14.197Z\",\n        \"description\": \"Creando mi primer wish\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{apiURLlocal}}/wishes/",
+          "host": ["{{apiURLlocal}}"],
+          "path": ["wishes", ""]
         }
       },
       "response": []
