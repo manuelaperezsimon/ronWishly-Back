@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  createWish,
   deleteWish,
   getAllWishes,
   getById,
@@ -11,5 +12,6 @@ const wishesRouter = express.Router();
 wishesRouter.get("/", authentication, getAllWishes);
 wishesRouter.delete("/:id", authentication, deleteWish);
 wishesRouter.get("/:id", authentication, getById);
+wishesRouter.post("/", createWish);
 
 export default wishesRouter;
