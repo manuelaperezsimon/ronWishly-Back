@@ -7,6 +7,7 @@ import {
   deleteWish,
   getAllWishes,
   getById,
+  modifyWish,
 } from "./wishesController";
 
 jest.mock("jsonwebtoken", () => ({
@@ -307,6 +308,65 @@ describe("Given a createWish function", () => {
       await createWish(req as Request, res as Response, next);
 
       expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+});
+
+describe("Given a modifyWish function", () => {
+  describe("When it's called with a request, response and next function", () => {
+    test("Then it show response with a status 200 and the modified wish", async () => {
+      const upDatedWish = {
+        id: "62e0ajh9b455361",
+        title: "Nadaremos en el mar",
+        picture: "mar.png",
+        limitDate: new Date(),
+        description: "en el mar el mar el mar",
+      };
+
+      const requestTest = {
+        body: upDatedWish,
+        params: { id: "62e0ajh9b455361" },
+      } as Partial<Request>;
+
+      const res: Partial<Response> = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn().mockResolvedValue({ upDatedWish }),
+      };
+
+      Wish.findByIdAndUpdate = jest.fn().mockResolvedValue(upDatedWish);
+
+      const expectedStatus = 200;
+
+      const next = jest.fn() as NextFunction;
+
+      await modifyWish(requestTest as Request, res as Response, next);
+
+      expect(res.status).toHaveBeenCalledWith(expectedStatus);
+      expect(res.json).toHaveBeenCalledWith({ upDatedWish });
+    });
+
+    test("Then it should next with an error if it cannot complete the update", async () => {
+      const errorTest = new CustomError(
+        400,
+        "Error to modify wish",
+        "Could not modify the wish"
+      );
+
+      Wish.findByIdAndUpdate = jest.fn().mockRejectedValue(errorTest);
+
+      const req = {
+        params: { id: "" },
+      } as Partial<Request>;
+
+      const res: Partial<Response> = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn().mockResolvedValue([]),
+      };
+      const next = jest.fn();
+
+      await modifyWish(req as Request, res as Response, next as NextFunction);
+
+      expect(next).toHaveBeenCalledWith(errorTest);
     });
   });
 });

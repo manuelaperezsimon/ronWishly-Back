@@ -100,3 +100,33 @@ export const createWish = async (
     next(newError);
   }
 };
+
+export const modifyWish = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const wish = req.body;
+  const { id } = req.params;
+
+  try {
+    const modifiedWish = {
+      ...wish,
+      title: wish.title,
+      picture: wish.picture,
+      limitDate: wish.limitDate,
+      description: wish.description,
+    };
+
+    const upDatedWish = await Wish.findByIdAndUpdate(id, modifiedWish);
+    res.status(200).json({ upDatedWish });
+  } catch (error) {
+    const newError = new CustomError(
+      400,
+      "Error to modify wish",
+      "Could not modify the wish"
+    );
+
+    next(newError);
+  }
+};
