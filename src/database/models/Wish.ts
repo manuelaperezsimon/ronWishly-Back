@@ -21,6 +21,9 @@ const wishSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
+  imageBackUp: {
+    type: String,
+  },
 });
 
 const Wish = model("Wish", wishSchema, "wishes");

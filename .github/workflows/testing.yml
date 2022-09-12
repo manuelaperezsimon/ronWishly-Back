@@ -18,3 +18,5 @@ jobs:
         run: npm test
         env:
           SECRET: ${{ secrets.SECRET }}
+          SUPABASE_URL: ${{secrets.SUPABASE_URL}}
+          SUPA_KEY: ${{secrets.SUPA_KEY}}

@@ -3,4 +3,5 @@ export interface IWish {
   picture: string;
   limitDate: Date;
   description: string;
+  imageBackUp?: string;
 }
